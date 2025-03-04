@@ -2,7 +2,7 @@
 
 An interactive markdown graph theme to showcase personal portfolios in a visually engaging way. It's just a side project, and have limited functionality
 
-![graph view of hugo-constellation](https://github.com/shashank-sharma/hugo-constellation/blob/master/images/graph-view.png?raw=true)
+![graph view of hugo-constellation](https://github.com/shashank-sharma/hugo-constellation/blob/master/images/main.png?raw=true)
 
 ## Features
 
