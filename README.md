@@ -20,15 +20,17 @@ An interactive markdown graph theme to showcase personal portfolios in a visuall
    cd my-portfolio
    ```
 
-2. Clone this repository into the themes directory
+2. Clone this repository into the themes directory or use submodule
    ```bash
-   git clone https://github.com/shashank-sharma/hugo-constellation themes/hugo-constellation
+   git submodule add https://github.com/shashank-sharma/hugo-constellation
    ```
 
 3. Set the theme in your config.toml file
    ```toml
    theme = "hugo-constellation"
    ```
+
+Example usage can be found here: https://github.com/shashank-sharma/about-me
 
 ## Configuration
 
