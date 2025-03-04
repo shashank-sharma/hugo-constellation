@@ -1,0 +1,9 @@
+{{ if .IsSection }}
+{{ else }}
+{
+  "id": "{{ .Params.id }}",
+  "title": "{{ .Title }}",
+  "subtitle": "{{ .Params.subtitle }}",
+  "content": {{ .Content | jsonify }}
+}
+{{ end }} 

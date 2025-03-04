@@ -1,0 +1,11 @@
+{{ define "main" }}
+<div class="graph-container">
+  <canvas id="graphCanvas"></canvas>
+  <div id="nodeTooltip" class="node-tooltip"></div>
+  <div id="loading" class="loading" style="display: none;">Initializing graph...</div>
+  <div id="debugPanel" class="debug-panel" style="display: none;">
+    Transition State: <span id="debugTransition">initializing</span><br>
+    Node Queue: <span id="debugQueue">0</span>
+  </div>
+</div>
+{{ end }}

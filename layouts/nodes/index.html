@@ -1,0 +1,17 @@
+{{ define "main" }}
+{{ $nodes := .Pages }}
+<script type="application/json">
+{
+  "nodes": [
+    {{ range $index, $node := $nodes }}
+    {
+      "id": "{{ $node.Params.id }}",
+      "title": "{{ $node.Title }}",
+      "subtitle": "{{ $node.Params.subtitle }}",
+      "content": {{ $node.Content | jsonify }}
+    }{{ if ne (add $index 1) (len $nodes) }},{{ end }}
+    {{ end }}
+  ]
+}
+</script>
+{{ end }}

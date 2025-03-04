@@ -1,0 +1,16 @@
+name = "Hugo Constellation"
+license = "MIT"
+licenselink = "https://github.com/shashank-sharma/hugo-constellation/blob/master/LICENSE"
+description = "An interactive knowledge graph theme for personal portfolios and project visualization"
+homepage = "https://github.com/shashank-sharma/hugo-constellation"
+tags = ["portfolio", "interactive", "graph", "knowledge", "network", "responsive", "visualization"]
+features = [
+  "presentation",
+]
+min_version = "0.125.7"
+
+demosite = 'https://shashank-sharma.github.io/about'
+
+[author]
+  name = "Shashank Sharma"
+  homepage = "https://github.com/shashank-sharma/hugo-constellation"

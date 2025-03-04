@@ -1,0 +1,60 @@
+{{ $nodes := where site.RegularPages "Section" "nodes" }}
+{{ $centerNodeList := where $nodes "Params.id" "person" }}
+{{ $centerNode := index $centerNodeList 0 }}
+{
+  "center": {
+    "id": "{{ $centerNode.Params.id }}",
+    "name": "{{ $centerNode.Title }}",
+    "type": "person",
+    "shape": "{{ $centerNode.Params.shape }}",
+    "subtitle": "{{ $centerNode.Params.subtitle }}",
+    "description": {{ with $centerNode.Content }}{{ . | jsonify }}{{ else }}""{{ end }}
+  },
+  "nodes": [
+    {{ $nonCenterNodes := where $nodes "Params.id" "ne" "person" }}
+    {{ $len := len $nonCenterNodes }}
+    {{ range $index, $node := $nonCenterNodes }}
+    {
+      "id": "{{ $node.Params.id }}",
+      "name": "{{ $node.Title }}",
+      "type": "{{ default "category" $node.Params.type }}",
+      "shape": "{{ default "square" $node.Params.shape }}",
+      "subtitle": "{{ $node.Params.subtitle }}",
+      "description": {{ with $node.Content }}{{ . | jsonify }}{{ else }}""{{ end }}
+      {{ with $node.Params.parent }},"parent": "{{ . }}"{{ end }}
+    }{{ if ne (add $index 1) $len }},{{ end }}
+    {{ end }}
+  ],
+  "connections": [
+    {{ $connectionsCount := 0 }}
+    {{ range $index, $node := $nonCenterNodes }}
+      {{ if $node.Params.parent }}
+        {{ if gt $connectionsCount 0 }},{{ end }}
+        {
+          "source": "{{ if $node.Params.parent }}{{ $node.Params.parent }}{{ else }}{{ end }}",
+          "target": "{{ if $node.Params.id }}{{ $node.Params.id }}{{ else }}{{ end }}",
+          "value": "{{ default 1 $node.Params.value }}",
+          "type": "{{ if $node.Params.connectionType }}{{ $node.Params.connectionType }}{{ else }}{{ end }}",
+          "label": "{{ if $node.Params.connectionLabel }}{{ $node.Params.connectionLabel }}{{ else }}{{ end }}"
+        }
+        {{ $connectionsCount = add $connectionsCount 1 }}
+      {{ end }}
+    {{ end }}
+  ],
+  "visualSettings": {
+    "nodeSize": {
+      "person": 20,
+      "default": 18
+    },
+    "colors": {
+      "person": "#4299e1",
+      "square": "#68d391",
+      "triangle": "#f6ad55",
+      "diamond": "#f687b3",
+      "hexagon": "#9f7aea",
+      "pentagon": "#38b2ac",
+      "octagon": "#805ad5",
+      "default": "#ed8936"
+    }
+  }
+} 

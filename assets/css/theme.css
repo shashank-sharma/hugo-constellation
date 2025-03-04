@@ -1,0 +1,74 @@
+:root {
+  /* Light theme variables (default) */
+  --background-color: #f8f9fa;
+  --text-color: #333333;
+  --card-background: #ffffff;
+  --card-text-color: #333333;
+  --border-color: #686868;
+  --hover-color: #f5f7fa;
+  --link-color: #4299e1;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --tooltip-background: rgba(0, 0, 0, 0.7);
+  --tooltip-text: #ffffff;
+  --toggle-icon: '🌙';
+  --secondary-text: #555555;
+  --header-background: #f8f9fa;
+  --node-stroke: #ffffff;
+}
+
+/* Dark theme class to be toggled via JS */
+.dark-theme {
+  --background-color: #111827;
+  --text-color: #ffffff;
+  --card-background: #1f2937;
+  --card-text-color: #e5e7eb;
+  --border-color: #374151;
+  --hover-color: #7e848e;
+  --link-color: #60a5fa;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --tooltip-background: rgba(0, 0, 0, 0.8);
+  --tooltip-text: #ffffff;
+  --toggle-icon: '☀️';
+  --secondary-text: #d1d5db;
+  --header-background: #1a202c;
+  --node-stroke: #1f2937;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+/* Transition for smooth theme switching */
+body, #rightCard, .content-header, #cardContent, .content-body, .node-tooltip,
+#zoomToggleBtn, .card-title, .content-header h3, .section-content, .canvas-footer {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* For supported browsers, apply a transition to all properties */
+@supports (transition: all 0.3s ease) {
+  * {
+    transition: all 0.3s ease;
+  }
+} 

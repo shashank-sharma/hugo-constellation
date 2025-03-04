@@ -1,0 +1,14 @@
+{
+  "title": "{{ .Title }}",
+  "nodes": [
+  {{ $nodes := .Pages }}
+  {{ $len := len $nodes }}
+  {{ range $index, $node := $nodes }}
+    {
+      "id": "{{ $node.Params.id }}",
+      "title": "{{ $node.Title }}",
+      "subtitle": "{{ $node.Params.subtitle }}"
+    }{{ if ne (add $index 1) $len }},{{ end }}
+  {{ end }}
+  ]
+} 

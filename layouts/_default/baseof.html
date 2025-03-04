@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default " en" }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+  <meta name="description"
+    content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}">
+  {{ $themeStyle := resources.Get "css/theme.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $themeStyle.RelPermalink }}">
+  {{ $style := resources.Get "css/main.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+  {{ $graphStyle := resources.Get "css/graph.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $graphStyle.RelPermalink }}">
+  {{ block "head" . }}{{ end }}
+</head>
+
+<body>
+  <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+  <div class="container">
+    {{ block "main" . }}{{ end }}
+    {{ partial "footer.html" . }}
+  </div>
+
+  {{ $mainScript := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $mainScript.RelPermalink }}"></script>
+  {{ $script := resources.Get "js/graph.js" | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $script.RelPermalink }}"></script>
+  {{ block "scripts" . }}{{ end }}
+</body>
+
+</html>

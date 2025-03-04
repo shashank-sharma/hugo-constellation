@@ -1,0 +1,152 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    overflow: hidden;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Main Layout */
+.container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Graph Canvas */
+.graph-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Node tooltip */
+.node-tooltip {
+    position: absolute;
+    background: var(--tooltip-background);
+    color: var(--tooltip-text);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+    z-index: 100;
+}
+
+/* Loading indicator */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: var(--tooltip-text);
+    background-color: var(--tooltip-background);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+/* Debug panel */
+.debug-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--tooltip-background);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: var(--tooltip-text);
+    z-index: 1000;
+}
+
+/* Node content detail */
+#nodeContentDetail {
+    margin-top: 16px;
+    padding: 16px;
+    background-color: var(--card-background);
+    border-radius: 4px;
+    color: var(--card-text-color);
+    line-height: 1.6;
+}
+
+#header-person {
+    border-bottom: 1px dashed var(--border-color);
+}
+
+#nodeContentDetail h2 {
+    margin-bottom: 16px;
+    font-size: 1.3rem;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+#nodeContentDetail h3 {
+    margin: 16px 0 8px;
+    font-size: 1.1rem;
+    color: var(--secondary-text);
+}
+
+#nodeContentDetail p {
+    margin-bottom: 12px;
+}
+
+#nodeContentDetail ul, #nodeContentDetail ol {
+    margin: 8px 0 16px 24px;
+}
+
+#nodeContentDetail a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+#nodeContentDetail a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .graph-container {
+        height: 60vh;
+    }
+}
+
+.canvas-footer {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0.4;
+    color: var(--text-color);
+}
+
+.canvas-footer p {
+    color: var(--text-color);
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin: 0;
+    padding: 0;
+    text-shadow: 0 0 2px var(--background-color);
+}
