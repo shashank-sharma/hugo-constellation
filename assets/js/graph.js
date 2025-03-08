@@ -1,6 +1,6 @@
 /**
  * Graph Visualization System
- * 
+ *
  * A modular, object-oriented implementation of an interactive graph visualization
  * that displays nodes and their connections with physics-based positioning.
  */
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setupConfig() {
             // Determine if we're on mobile
             const isMobile = this.isMobileDevice();
-            
+
             this.config = {
                 // UI settings
                 centerOffsetX: isMobile ? 0 : -300, // No offset on mobile to keep graph centered
@@ -131,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
         createUIElements() {
             this.createRightCard();
             this.createZoomToggleButton();
-            this.addFontAwesomeLink();
         }
 
         // Create the right card container and content
@@ -181,14 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
             this.graphContainer.appendChild(this.zoomToggleBtn);
         }
 
-        // Add Font Awesome link to the document
-        addFontAwesomeLink() {
-            const faLink = document.createElement('link');
-            faLink.rel = 'stylesheet';
-            faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
-            document.head.appendChild(faLink);
-        }
-
         // Fetch graph data from server
         fetchGraphData() {
             fetch('/data/graph.json')
@@ -205,12 +196,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
         // Process the fetched graph data
         processGraphData() {
             const centerX = this.width / 2 + this.config.centerOffsetX;
             const centerY = this.height / 2;
-            
+
             // Create center node
             const centerNode = {
                 ...this.graphData.center,
@@ -239,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     x: centerX + (Math.random() - 0.5) * 100,
                     y: centerY + (Math.random() - 0.5) * 100,
                     radius: (this.graphData.visualSettings?.nodeSize?.default || this.config.nodeRadius) * this.sizeMultiplier,
-                    color: this.graphData.visualSettings?.colors?.[nodeData.shape] || 
+                    color: this.graphData.visualSettings?.colors?.[nodeData.shape] ||
                            this.graphData.visualSettings?.colors?.default || "#ed8936",
                     mass: 1,
                     vx: 0,
@@ -359,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (personNode) {
                 const nodeContent = this.nodeContentMap[personNode.id] || { content: 'Loading content...' };
             const description = personNode.description || '';
-            
+
                 htmlContent += this.createNodeSection(personNode, description, nodeContent, false);
             }
 
@@ -391,11 +382,11 @@ document.addEventListener('DOMContentLoaded', function() {
             this.nodeContentEl.querySelectorAll('.content-header').forEach(header => {
             const nodeId = header.id.replace('header-', '');
             const bodyEl = document.getElementById(`body-${nodeId}`);
-            
+
                 header.addEventListener('click', () => {
                 bodyEl.classList.toggle('collapsed');
                 header.classList.toggle('collapsed');
-                
+
                     // If opening a section
                 if (!header.classList.contains('collapsed')) {
                         // Scroll the section into view
@@ -439,36 +430,36 @@ document.addEventListener('DOMContentLoaded', function() {
             this.canvas.style.width = `${this.width}px`;
             this.canvas.style.height = `${this.height}px`;
             this.ctx.scale(this.pixelRatio, this.pixelRatio);
-            
+
             // Update centerOffsetX based on current screen size
             const wasMobile = this.config.centerOffsetX === 0;
             const isMobile = this.isMobileDevice();
-            
+
             // Only update if mobile state has changed
             if (wasMobile !== isMobile) {
                 this.config.centerOffsetX = isMobile ? 0 : -300;
                 document.documentElement.style.setProperty('--center-offset-x', `${this.config.centerOffsetX}px`);
-                
+
                 // Update person node offset values
                 this.config.personOffsetX = isMobile ? 40 : 80;
                 this.config.personOffsetY = isMobile ? 25 : 50;
-                
+
                 // Reposition nodes if we have any
                 if (this.nodes && this.nodes.length > 0) {
                     const centerX = this.width / 2 + this.config.centerOffsetX;
                     const centerY = this.height / 2;
-                    
+
                     // Update positions of all nodes
                     this.nodes.forEach(node => {
                         // Calculate new position relative to center
                         const dx = node.x - (this.width / 2 + (wasMobile ? 0 : -300));
                         const dy = node.y - this.height / 2;
-                        
+
                         // Apply new position with updated center
                         node.x = centerX + dx;
                         node.y = centerY + dy;
                     });
-                    
+
                     // If we have a selected node, recenter the view
                     if (this.selectedNode) {
                         this.centerOnNode(this.selectedNode);
@@ -493,20 +484,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Apply repulsion forces between nodes
             this.applyRepulsionForces(repulsionStrength);
-            
+
             // Apply spring forces along links
             this.applySpringForces(springLength, springStrength);
-            
+
             // Apply centering forces
             this.applyCenteringForces(centeringStrength);
-            
+
             // Apply stronger centering force to selected node
             this.applySelectedNodeForces();
-            
+
             // Update velocities and positions
             this.updateNodePositions(deltaTime, dampingFactor);
         }
-        
+
         // Apply repulsion forces between nodes
         applyRepulsionForces(repulsionStrength) {
             for (let i = 0; i < this.nodes.length; i++) {
@@ -562,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function() {
             target.fy -= ny * force;
         });
         }
-        
+
         // Apply centering forces to all nodes
         applyCenteringForces(centeringStrength) {
             this.nodes.forEach(node => {
@@ -571,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Apply offset to center position
                 const centerX = this.width / 2 + this.config.centerOffsetX;
                 const centerY = this.height / 2;
-            
+
             const dx = centerX - node.x;
             const dy = centerY - node.y;
             node.fx += dx * centeringStrength;
@@ -590,11 +581,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.selectedNode.fy += (centerY - this.selectedNode.y) * strength;
             }
         }
-        
+
         // Update node positions based on forces
         updateNodePositions(deltaTime, dampingFactor) {
             const settlementThreshold = this.config.settlementThreshold;
-            
+
             this.nodes.forEach(node => {
                 if (node === this.draggedNode) return;
                 if (this.visibilityMap[node.id] <= 0.01) return;
@@ -645,7 +636,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.ctx.globalAlpha = visibility;
         const color = node.color || "#ed8936";
             const computedStyle = getComputedStyle(document.body);
-            if ((this.selectedNode && node.id === this.selectedNode.id) || 
+            if ((this.selectedNode && node.id === this.selectedNode.id) ||
                 (this.hoveredNode && node.id === this.hoveredNode.id)) {
                 const shadowColor = computedStyle.getPropertyValue('--text-color').trim() || 'white';
                 this.ctx.shadowColor = shadowColor;
@@ -679,7 +670,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             this.ctx.restore();
         }
-        
+
         // Draw the appropriate shape for a node
         drawNodeShape(node, x, y, size) {
         if (node.shape === 'circle') {
@@ -790,7 +781,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             this.ctx.restore();
         }
-        
+
         // Draw label for a link
         drawLinkLabel(link, source, target, textColor) {
             const midX = (source.x + target.x) / 2;
@@ -885,12 +876,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update node visibilities with smooth transitions
         updateNodeVisibilities() {
             const fadeSpeed = this.config.fadeSpeed;
-            
-            // Cubic easing - smoother acceleration/deceleration 
+
+            // Cubic easing - smoother acceleration/deceleration
             const ease = (t) => {
                 return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
             };
-            
+
             this.nodes.forEach(node => {
                 const current = this.visibilityMap[node.id] || 0;
             const target = node.targetVisibility;
@@ -899,7 +890,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Calculate difference and progress
                     const difference = target - current;
                     const progress = 1 - (Math.abs(difference) / 1.0);
-                    
+
                     // Apply eased transition
                     if (Math.abs(difference) < fadeSpeed) {
                         this.visibilityMap[node.id] = target;
@@ -954,19 +945,19 @@ document.addEventListener('DOMContentLoaded', function() {
             // Determine the initial center node based on URL navigation
             const personNode = this.nodes.find(n => n.type === 'person');
             let centerNode = personNode; // Default to person node
-            
+
             // If we have a URL-specified node, use that as the center for transitions
             if (this.initialCenterNode && this.initialCenterNode.id !== personNode.id) {
                 console.log('Using URL-specified node as center for transitions:', this.initialCenterNode.id);
                 centerNode = this.initialCenterNode;
-                
+
                 // Make sure both the URL-specified node and person node are visible
                 personNode.targetVisibility = 1;
             }
-            
+
             // Make the center node visible
         centerNode.targetVisibility = 1;
-        
+
         // All other nodes should be invisible at first
             this.nodes.filter(n => n.id !== centerNode.id && n.id !== personNode.id).forEach(n => {
             n.targetVisibility = 0;
@@ -992,7 +983,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.completeTransition();
             }
         }
-        
+
         // Transition to showing first level nodes
         transitionToFirstLevel() {
             this.transitionState = 'firstLevel';
@@ -1004,12 +995,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Determine which node to use as center for finding connections
             const personNode = this.nodes.find(n => n.type === 'person');
             let centerNode = personNode;
-            
+
             // If we have a URL-specified node, use that as the center
             if (this.initialCenterNode) {
                 centerNode = this.initialCenterNode;
             }
-            
+
             // Find nodes directly connected to the center node
             const firstLevelNodeIds = this.links
                 .filter(link => link.source.id === centerNode.id || link.target.id === centerNode.id)
@@ -1018,7 +1009,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Sequential visibility
             this.queueNodesForVisibility(firstLevelNodeIds);
         }
-        
+
         // Transition to showing second level nodes
         transitionToSecondLevel() {
             this.transitionState = 'secondLevel';
@@ -1055,25 +1046,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
             this.queueNodesForVisibility(secondLevelNodeIds);
         }
-        
+
         // Complete the transition
         completeTransition() {
             this.transitionState = 'complete';
-            
+
             if (this.debug) {
                 console.log(`Transition complete at ${Date.now() - this.transitionStartTime}ms`);
             }
-            
+
             // Hide loading element
             this.loadingEl.style.opacity = '0';
-            
+
             // Select the appropriate node after transition
             if (this.initialCenterNode) {
                 console.log('Selecting initial center node:', this.initialCenterNode.id);
-                
+
                 // Make sure the node's section is added to the content panel
                 this.addNodeSectionIfNeeded(this.initialCenterNode);
-                
+
                 // Then select the node to center it
                 this.centerNode(this.initialCenterNode);
             } else {
@@ -1096,28 +1087,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Add nodes to queue in random order for more natural appearance
         const shuffledIds = [...nodesToQueue].sort(() => Math.random() - 0.5);
-            
+
             // Add filtered nodes to the queue with progressive delays
             let delay = 0;
             shuffledIds.forEach((id, index) => {
                 // Use progressive delays for smoother appearance
                 setTimeout(() => {
                     this.nodeQueue.push(id);
-                    
+
                     // Start processing if this is the first one and not already processing
                     if (index === 0 && !this.nodeProcessingTimer) {
                         this.processNextNodeInQueue();
                     }
-                    
+
                     if (this.debugMode) {
                         this.debugQueue.textContent = this.nodeQueue.length;
                     }
                 }, delay);
-                
+
                 // Increase delay for each successive node (20ms stagger)
                 delay += 20;
             });
-            
+
             // If no nodes to process, check settlement
             if (nodesToQueue.length === 0) {
                 this.checkSettlementInterval();
@@ -1134,11 +1125,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 node.targetVisibility = 1;
                     this.lastNodeProcessedTime = Date.now();
                     this.addNodeSectionIfNeeded(node);
-                    
+
                     if (this.debugMode) {
                         this.debugQueue.textContent = this.nodeQueue.length;
                     }
-                    
+
                     this.nodeProcessingTimer = setTimeout(() => {
                         this.processNextNodeInQueue();
                     }, this.config.nodeProcessingInterval);
@@ -1299,7 +1290,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             }
-            
+
             // Update mobile button visibility on window resize
             window.addEventListener('resize', () => {
                 if (this.mobileCloseBtn) {
@@ -1311,7 +1302,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-        
+
         // Handle back/forward browser navigation
         handlePopState(event) {
             // Check if we have state with a nodeId
@@ -1420,14 +1411,14 @@ document.addEventListener('DOMContentLoaded', function() {
             this.nodeContentEl.querySelectorAll('.content-header').forEach(header => {
                 const nodeId = header.id.replace('header-', '');
                 const body = document.getElementById(`body-${nodeId}`);
-                
+
                 if (nodeId !== node.id) {
                     header.classList.add('collapsed');
                     body.classList.add('collapsed');
                 } else {
                     header.classList.remove('collapsed');
                     body.classList.remove('collapsed');
-                    
+
                     // Scroll the section into view
                     setTimeout(() => {
                         const sectionEl = document.getElementById(`node-section-${node.id}`);
@@ -1505,7 +1496,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (nodesToShow.length > 0) {
                 this.queueNodesForVisibility(nodesToShow);
             }
-        } 
+        }
             else if (this.zoomedOut) {
             // In zoomed out mode, show all nodes
                 this.nodes.forEach(n => {
@@ -1548,7 +1539,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     personNode.targetVisibility = 1;
                     visibleNodeIds.push(personNodeId);
                 }
-                
+
                 // Always ensure the initialCenterNode is visible if it exists
                 console.log("initialCenterNodeId", initialCenterNodeId);
                 if (this.initialCenterNode && !nodeDistances.has(initialCenterNodeId) && initialCenterNodeId !== node.id) {
@@ -1585,20 +1576,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const dx = centerX - centerNode.x;
             const dy = centerY - centerNode.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            
+
             // Apply more easing for longer distances to make movement less snappy
             const easeAmount = easeOutCubic(Math.min(1, 100 / distance));
             const easedVelocity = this.config.centerNodeVelocity * (distance > 100 ? easeAmount : 1);
-            
+
             // Move center node to center position
             centerNode.vx = dx * easedVelocity;
             centerNode.vy = dy * easedVelocity;
 
             const personNode = this.nodes.find(n => n.type === 'person');
-            
+
             // Position first level nodes in a circle around the center
             this.positionFirstLevelNodes(centerNode, nodeDistances, centerX, centerY);
-            
+
             // Position second level nodes in a wider circle
             this.positionSecondLevelNodes(nodeDistances, centerX, centerY);
 
@@ -1608,12 +1599,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!nodeDistances.has(this.initialCenterNode.id)) {
                     const initialNodeX = centerX + this.config.firstLevelRadius / 2; // Position to the right side
                     const initialNodeY = centerY - this.config.firstLevelRadius / 3; // Slightly above center
-                    
+
                     this.initialCenterNode.vx = (initialNodeX - this.initialCenterNode.x) * this.config.centerNodeVelocity;
                     this.initialCenterNode.vy = (initialNodeY - this.initialCenterNode.y) * this.config.centerNodeVelocity;
                 }
             }
-            
+
             // Position outer nodes based on whether we're viewing the person node
         if (centerNode.type === 'person') {
                 this.positionOuterNodesForPersonView(centerNode, nodeDistances, centerX, centerY);
@@ -1621,14 +1612,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.positionOuterNodesForNonPersonView(centerNode, nodeDistances, personNode, centerX, centerY);
             }
         }
-        
+
         // Position outer nodes when viewing the person node
         positionOuterNodesForPersonView(centerNode, nodeDistances, centerX, centerY) {
             const outerNodes = this.nodes.filter(n => !nodeDistances.has(n.id) && n.id !== centerNode.id);
-            
+
             // Skip if there are no outer nodes
             if (!outerNodes.length) return;
-            
+
             outerNodes.forEach((node, i) => {
                 const angle = 2 * Math.PI * i / outerNodes.length;
                 const targetX = centerX + this.config.outerLevelRadius * Math.cos(angle);
@@ -1638,12 +1629,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 node.vy = (targetY - node.y) * this.config.outerNodeVelocity;
             });
         }
-        
+
         // Position outer nodes when viewing a non-person node
         positionOuterNodesForNonPersonView(centerNode, nodeDistances, personNode, centerX, centerY) {
             // 1. Position distant nodes
             const outerNodes = this.nodes.filter(n => !nodeDistances.has(n.id) && n.id !== centerNode.id && n.type !== 'person' && (!this.initialCenterNode || n.id !== this.initialCenterNode.id));
-            
+
             // Only position outer nodes if there are any
             if (outerNodes.length) {
                 outerNodes.forEach((node, i) => {
@@ -1670,10 +1661,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Position first level connected nodes
         positionFirstLevelNodes(centerNode, nodeDistances, centerX, centerY) {
             const firstLevelNodes = this.nodes.filter(n => nodeDistances.get(n.id) === 1);
-            
+
             // Skip if there are no first level nodes
             if (!firstLevelNodes.length) return;
-            
+
             firstLevelNodes.forEach((node, i) => {
                 const angle = 2 * Math.PI * i / firstLevelNodes.length;
                 const targetX = centerX + this.config.firstLevelRadius * Math.cos(angle);
@@ -1683,14 +1674,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 node.vy = (targetY - node.y) * this.config.firstLevelVelocity;
             });
         }
-        
+
         // Position second level connected nodes
         positionSecondLevelNodes(nodeDistances, centerX, centerY) {
             const secondLevelNodes = this.nodes.filter(n => nodeDistances.get(n.id) === 2);
-            
+
             // Skip if there are no second level nodes
             if (!secondLevelNodes.length) return;
-            
+
             secondLevelNodes.forEach((node, i) => {
                 const angle = 2 * Math.PI * i / secondLevelNodes.length;
                 const targetX = centerX + this.config.secondLevelRadius * Math.cos(angle);
@@ -1704,7 +1695,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Find nodes that are connected to a central node and calculate their distance
         findConnectedNodes(nodeId) {
             if (!nodeId) return new Map(); // Return empty map if no nodeId is provided
-            
+
         const nodeDistances = new Map();
         nodeDistances.set(nodeId, 0);
 
@@ -1720,7 +1711,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Handle both object references and direct ID references
                     const sourceId = link.source.id || link.source;
                     const targetId = link.target.id || link.target;
-                    
+
                     if (sourceId && targetId) {
                         if (graph[sourceId]) graph[sourceId].push(targetId);
                         if (graph[targetId]) graph[targetId].push(sourceId);
@@ -1782,19 +1773,19 @@ document.addEventListener('DOMContentLoaded', function() {
             this.lastMouseX = x;
             this.lastMouseY = y;
         }
-        
+
         // Find node at a specific position
         findNodeAtPosition(x, y) {
             // Check from last to first to prioritize nodes drawn on top
             for (let i = this.nodes.length - 1; i >= 0; i--) {
                 const node = this.nodes[i];
-                
+
                 if (this.visibilityMap[node.id] <= 0.1) continue;
-                
+
                 const dx = node.x - x;
                 const dy = node.y - y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                
+
                 if (distance < node.radius) {
                     return node;
                 }
@@ -1838,7 +1829,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Find touched node
                 const touchedNode = this.findNodeAtPosition(x, y);
-                
+
                 if (touchedNode) {
                     this.draggedNode = touchedNode;
                     this.lastMouseX = x;
@@ -1884,13 +1875,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     const dy = y - this.lastPanY;
                     this.lastPanX = x;
                     this.lastPanY = y;
-                    
+
                     // Move all nodes in the same direction
                     this.nodes.forEach(node => {
                         node.x += dx;
                         node.y += dy;
                     });
-                    
+
                     e.preventDefault();
                 }
             }
@@ -1906,7 +1897,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.draggedNode = null;
             }, 100);
         }
-        
+
         this.isPanning = false;
     }
 
@@ -1929,10 +1920,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.initialCenterNode = targetNode;
                     this.selectedNode = targetNode; // Set as selected node
                     this.centerNode(this.initialCenterNode);
-                    
+
                     // Show the node's content immediately without waiting for transitions
                     this.addNodeSectionIfNeeded(targetNode, true);
-                    
+
                     // Show sidebar on mobile
                     if (this.isMobileDevice()) {
                         this.rightCardContainer.classList.add('active');
@@ -1947,10 +1938,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             console.log('URL navigation: Node found after waiting, selecting:', node);
                             this.initialCenterNode = node;
                             this.selectedNode = node; // Set as selected node
-                            
+
                             // Show the node's content immediately when we find it
                             this.addNodeSectionIfNeeded(node);
-                            
+
                             // Show sidebar on mobile
                             if (this.isMobileDevice()) {
                                 this.rightCardContainer.classList.add('active');
@@ -2037,7 +2028,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         img.setAttribute('src', `/nodes/${nodeId}/${src}`);
                     }
                 }
-                
+
                 // Make images clickable to expand
                 img.style.cursor = 'pointer';
                 img.classList.add('expandable-image');
@@ -2063,65 +2054,65 @@ document.addEventListener('DOMContentLoaded', function() {
                 imageModal = document.createElement('div');
                 imageModal.classList.add('image-modal');
                 imageModal.style.display = 'none';
-                
+
                 // Create close button
                 const closeBtn = document.createElement('button');
                 closeBtn.classList.add('image-modal-close');
                 closeBtn.innerHTML = '&times;';
                 closeBtn.addEventListener('click', hideExpandedImage);
-                
+
                 // Create image element
                 modalImage = document.createElement('img');
                 modalImage.classList.add('image-modal-content');
-                
+
                 // Create caption
                 imageCaption = document.createElement('div');
                 imageCaption.classList.add('image-modal-caption');
-                
+
                 // Append elements
                 imageModal.appendChild(closeBtn);
                 imageModal.appendChild(modalImage);
                 imageModal.appendChild(imageCaption);
-                
+
                 // Add modal to body
                 document.body.appendChild(imageModal);
-                
+
                 // Close modal when clicking outside the image
                 imageModal.addEventListener('click', function(e) {
                     if (e.target === imageModal) {
                         hideExpandedImage();
                     }
                 });
-                
+
                 // Add keyboard support (ESC to close)
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'Escape' && imageModal.style.display === 'flex') {
                         hideExpandedImage();
                     }
                 });
-                
+
                 // Add CSS for the modal (now moved to CSS file)
                 const style = document.createElement('style');
                 style.textContent = ``;  // Content moved to CSS file
                 document.head.appendChild(style);
             }
-            
+
             // Set image source and caption
             modalImage.src = src;
             imageCaption.textContent = alt || '';
-            
+
             // Show modal
             imageModal.style.display = 'flex';
-            
+
             // Prevent scrolling on the body when modal is open
             document.body.style.overflow = 'hidden';
         }
-    
+
         // Function to hide the expanded image
         function hideExpandedImage() {
             if (imageModal) {
                 imageModal.style.display = 'none';
-                
+
                 // Restore scrolling
                 document.body.style.overflow = '';
             }
@@ -2155,4 +2146,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
         graphViz.animationFrame = requestAnimationFrame(() => graphViz.animate());
     };
-}); 
+});

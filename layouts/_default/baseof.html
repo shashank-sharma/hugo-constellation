@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{{ $style.RelPermalink }}">
   {{ $graphStyle := resources.Get "css/graph.css" | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $graphStyle.RelPermalink }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   {{ block "head" . }}{{ end }}
 </head>
 
@@ -20,8 +21,8 @@
   <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
   <div class="container">
     {{ block "main" . }}{{ end }}
-    {{ partial "footer.html" . }}
   </div>
+    {{ partial "footer.html" . }}
 
   {{ $mainScript := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
   <script src="{{ $mainScript.RelPermalink }}"></script>
