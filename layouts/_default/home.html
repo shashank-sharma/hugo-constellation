@@ -1,4 +1,11 @@
 {{ define "main" }}
+  {{ if not hugo.IsServer }}
+    {{ with .Site.Params.Analytics }}
+      {{ if eq .provider "umami" }}
+        <script async defer data-website-id="{{ .umamiWebsiteId }}" src="https://{{ .umamiServerUrl }}/script.js"></script>
+      {{ end }}
+  {{ end }}
+{{ end }}
 <div class="graph-container">
   <canvas id="graphCanvas"></canvas>
   <div id="nodeTooltip" class="node-tooltip"></div>
